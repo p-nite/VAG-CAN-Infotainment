@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1203.336 899.45" width="1203.336" height="899.45" style="--bg:#1F1F1F;--fg:#CCCCCC;--line:#CCCCCC;--accent:#0078D4;--muted:#CCCCCCCC;--surface:#181818;--border:#CCCCCC;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="seq-arrow" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polyline points="0 0, 8 2.5, 0 5" fill="none" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+</defs>
+<g class="block" data-type="alt" data-label="Telemóvel na whitelist encontrado">
+  <rect x="30" y="275.45" width="1040.911" height="489.00000000000006" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="275.45" width="213.00999999999993" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="284.45" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">alt [Telemóvel na whitelist encontrado]</text>
+  <line x1="30" y1="676.45" x2="1070.911" y2="676.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+  <text x="38" y="690.45" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">[Telemóvel não encontrado (ou desconhecido)]</text>
+</g>
+<line class="lifeline" data-actor="Driver" x1="80" y1="92.45" x2="80" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="TTP" x1="224.7695" y1="70" x2="224.7695" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="BLE_HW" x1="385.4165" y1="70" x2="385.4165" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="CAN_HW" x1="550.5095" y1="70" x2="550.5095" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Auth" x1="713.75" y1="70" x2="713.75" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="CAN_Srv" x1="860.318" y1="70" x2="860.318" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="LockSys" x1="1006.886" y1="70" x2="1006.886" y2="869.45" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="Driver" data-to="TTP" data-label="Toca no vidro (Sensor)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="80" y1="112.45" x2="224.7695" y2="112.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="152.38475" y="102.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Toca no vidro (Sensor)</text>
+</g>
+<g class="message" data-from="TTP" data-to="LockSys" data-label="Interrupt (Wake up)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="224.7695" y1="152.45" x2="1006.886" y2="152.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="615.8277499999999" y="142.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Interrupt (Wake up)</text>
+</g>
+<g class="message" data-from="LockSys" data-to="Auth" data-label="isOwnerNearby()" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1006.886" y1="207.45" x2="713.75" y2="207.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="860.318" y="197.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">isOwnerNearby()</text>
+</g>
+<g class="message" data-from="Auth" data-to="BLE_HW" data-label="Start Scan (Timeout: 3s)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="713.75" y1="247.45" x2="385.4165" y2="247.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="549.58325" y="237.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Start Scan (Timeout: 3s)</text>
+</g>
+<g class="message" data-from="BLE_HW" data-to="Auth" data-label="Device Found (MAC: AA:BB:CC)" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="385.4165" y1="315.45" x2="713.75" y2="315.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="549.58325" y="305.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Device Found (MAC: AA:BB:CC)</text>
+</g>
+<g class="message" data-from="Auth" data-to="LockSys" data-label="True (Autorizado)" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="713.75" y1="355.45" x2="1006.886" y2="355.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="860.318" y="345.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">True (Autorizado)</text>
+</g>
+<g class="message" data-from="LockSys" data-to="CAN_Srv" data-label="getCarStatus()" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1006.886" y1="395.45" x2="860.318" y2="395.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="933.602" y="385.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">getCarStatus()</text>
+</g>
+<g class="message" data-from="CAN_Srv" data-to="LockSys" data-label="State: UNLOCKED" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="860.318" y1="435.45" x2="1006.886" y2="435.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="933.602" y="425.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">State: UNLOCKED</text>
+</g>
+<g class="message" data-from="LockSys" data-to="CAN_Srv" data-label="commandLock()" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1006.886" y1="490.45" x2="860.318" y2="490.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="933.602" y="480.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">commandLock()</text>
+</g>
+<g class="message" data-from="CAN_Srv" data-to="CAN_Srv" data-label="Prepara CAN Frame (ID 0x291, Data: 0x01)" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="860.318,530.45 890.318,530.45 890.318,550.45 860.318,550.45" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="898.318" y="540.45" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Prepara CAN Frame (ID 0x291, Data: 0x01)</text>
+</g>
+<g class="message" data-from="CAN_Srv" data-to="CAN_HW" data-label="sendFrame()" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="860.318" y1="600.45" x2="550.5095" y2="600.45" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="705.4137499999999" y="590.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">sendFrame()</text>
+</g>
+<g class="message" data-from="CAN_HW" data-to="Driver" data-label="🔒 Carro tranca" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="550.5095" y1="640.45" x2="80" y2="640.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="315.25475" y="630.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">🔒 Carro tranca</text>
+</g>
+<g class="message" data-from="BLE_HW" data-to="Auth" data-label="Timeout (Nenhum MAC conhecido)" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="385.4165" y1="704.45" x2="713.75" y2="704.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="549.58325" y="694.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Timeout (Nenhum MAC conhecido)</text>
+</g>
+<g class="message" data-from="Auth" data-to="LockSys" data-label="False (Não Autorizado)" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="713.75" y1="744.45" x2="1006.886" y2="744.45" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="860.318" y="734.45" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">False (Não Autorizado)</text>
+</g>
+<g class="message" data-from="LockSys" data-to="LockSys" data-label="Voltar a modo Deep Sleep" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="1006.886,799.45 1036.886,799.45 1036.886,819.45 1006.886,819.45" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1044.886" y="809.45" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Voltar a modo Deep Sleep</text>
+</g>
+<g class="note" data-position="over" data-actors="LockSys">
+  <polygon points="928.127,160.45 1079.645,160.45 1085.645,166.45 1085.645,183.45 928.127,183.45" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1079.645,160.45 1085.645,166.45 1079.645,166.45" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1006.886" y="171.95" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Inicia fluxo de Keyless Entry</text>
+</g>
+<g class="note" data-position="over" data-actors="LockSys">
+  <polygon points="905.555,443.45 1102.217,443.45 1108.217,449.45 1108.217,466.45 905.555,466.45" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1102.217,443.45 1108.217,449.45 1102.217,449.45" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1006.886" y="454.95" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Lógica: Se está destrancado, trancar.</text>
+</g>
+<g class="note" data-position="over" data-actors="LockSys">
+  <polygon points="918.029,752.45 1089.743,752.45 1095.743,758.45 1095.743,775.45 918.029,775.45" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1089.743,752.45 1095.743,758.45 1089.743,758.45" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1006.886" y="763.95" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Lógica: Abortar. Ignorar o toque.</text>
+</g>
+<g class="actor" data-id="Driver" data-label="Driver" data-type="actor">
+  <g transform="translate(62,32) scale(1.5)">
+    <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" fill="none" stroke="var(--_line)" stroke-width="0.6666666666666666" />
+    <path d="M15 10C15 11.6569 13.6569 13 12 13C10.3431 13 9 11.6569 9 10C9 8.34315 10.3431 7 12 7C13.6569 7 15 8.34315 15 10Z" fill="none" stroke="var(--_line)" stroke-width="0.6666666666666666" />
+    <path d="M5.62842 18.3563C7.08963 17.0398 9.39997 16 12 16C14.6 16 16.9104 17.0398 18.3716 18.3563" fill="none" stroke="var(--_line)" stroke-width="0.6666666666666666" />
+  </g>
+  <text x="80" y="84" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">Driver</text>
+</g>
+<g class="actor" data-id="TTP" data-label="TTP223 Sensor" data-type="participant">
+  <rect x="160" y="30" width="129.539" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="224.7695" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">TTP223 Sensor</text>
+</g>
+<g class="actor" data-id="BLE_HW" data-label="BLE Antenna" data-type="participant">
+  <rect x="329.539" y="30" width="111.755" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="385.4165" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">BLE Antenna</text>
+</g>
+<g class="actor" data-id="CAN_HW" data-label="CAN Transceiver" data-type="participant">
+  <rect x="481.294" y="30" width="138.43099999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="550.5095" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">CAN Transceiver</text>
+</g>
+<g class="actor" data-id="Auth" data-label="AuthService" data-type="participant">
+  <rect x="659.725" y="30" width="108.05" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="713.75" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">AuthService</text>
+</g>
+<g class="actor" data-id="CAN_Srv" data-label="CanService" data-type="participant">
+  <rect x="807.775" y="30" width="105.086" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="860.318" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">CanService</text>
+</g>
+<g class="actor" data-id="LockSys" data-label="LockSystem" data-type="participant">
+  <rect x="952.861" y="30" width="108.05" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1006.886" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">LockSystem</text>
+</g>
+</svg>
