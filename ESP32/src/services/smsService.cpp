@@ -56,7 +56,7 @@ ParsedSMS SmsService::parseCommand(const char* sender, const char* message) {
     if (token != nullptr && strcmp(token, SMS_AUTH_TOKEN) == 0) {
         result.authValid = true;
     } else {
-        Serial.println("[SMS_SRV] ❌ Invalid auth token.");
+        Serial.println("[SMS_SRV] Invalid auth token.");
     }
 
     return result;
@@ -71,37 +71,45 @@ void SmsService::processIncomingSMS(const char* sender, const char* message) {
 
     ParsedSMS parsed = parseCommand(sender, message);
 
-    // Reject if auth failed
+    // ==========================================
+    // SMS Cost Optimization:
+    // Only reply with SMS on SUCCESSFUL commands.
+    // Invalid auth or unknown commands are silently
+    // dropped (logged to Serial only) to avoid
+    // wasting SMS credits on spam or typos.
+    // ==========================================
+
+    // Reject if auth failed — NO SMS reply (save credits)
     if (!parsed.authValid) {
-        sendStatusReply(sender, "STATUS:AUTH_FAIL");
+        Serial.printf("[SMS_SRV] Auth failed from %s. Ignoring (no SMS reply).\n", sender);
         return;
     }
 
-    // Reject unknown commands
+    // Reject unknown commands — NO SMS reply (save credits)
     if (parsed.command == SmsCommand::UNKNOWN) {
-        sendStatusReply(sender, "STATUS:UNKNOWN_CMD");
+        Serial.printf("[SMS_SRV] Unknown command from %s. Ignoring (no SMS reply).\n", sender);
         return;
     }
 
-    // Execute the command
+    // Execute the command — ONLY successful actions get a reply
     switch (parsed.command) {
 
         case SmsCommand::LOCK:
             Serial.println("[SMS_SRV] Executing LOCK...");
             CanService::commandLock();
-            sendStatusReply(sender, "STATUS:LOCKED:OK");
+            sendStatusReply(sender, "OK:LOCKED");
             break;
 
         case SmsCommand::UNLOCK:
             Serial.println("[SMS_SRV] Executing UNLOCK...");
             CanService::commandUnlock();
-            sendStatusReply(sender, "STATUS:UNLOCKED:OK");
+            sendStatusReply(sender, "OK:UNLOCKED");
             break;
 
         case SmsCommand::LIGHTS:
             Serial.println("[SMS_SRV] Executing LIGHTS...");
             CanService::toggleHazards();
-            sendStatusReply(sender, "STATUS:LIGHTS:OK");
+            sendStatusReply(sender, "OK:LIGHTS");
             break;
 
         case SmsCommand::STATUS: {
@@ -109,13 +117,14 @@ void SmsService::processIncomingSMS(const char* sender, const char* message) {
             bool locked = CanService::isCarLocked();
             int signal = GsmManager::getSignalStrength();
             char reply[80];
-            snprintf(reply, sizeof(reply), "STATUS:CAR_%s:SIGNAL_%d",
+            snprintf(reply, sizeof(reply), "OK:%s:SIG%d",
                      locked ? "LOCKED" : "UNLOCKED", signal);
             sendStatusReply(sender, reply);
             break;
         }
 
         default:
+            Serial.println("[SMS_SRV] Unhandled command (should not happen).");
             break;
     }
 }
