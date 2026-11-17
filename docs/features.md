@@ -1,37 +1,41 @@
 # Features
 
 > Status legend: 🔲 Planned · 🔄 In Progress · ✅ Done · ❌ Cancelled · 🔍 Under Research
+>
+> The car turned out to have no Powertrain CAN: the engine ECU only speaks K-line ([ADR-018](decisions.md#adr-018-the-vehicle-has-no-powertrain-can--engine-ecu-is-k-line-only)). Features that relied on it were either moved to K-line or cancelled. Each one keeps its original data source in the **Original (CAN design)** column, so the change stays visible.
 
 ---
 
-## Dashboard & Telemetry (Raspberry Pi 4 — Powertrain CAN)
+## Dashboard & Telemetry (Raspberry Pi 4 — Engine ECU over K-line)
 
-| ID | Feature | Description | Trigger | Hardware | Stack | Status |
-|----|---------|-------------|---------|----------|-------|--------|
-| Pi01 | **Live RPM Gauge** | Displays real-time engine RPM from CAN ID `0x280` | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔲 |
-| Pi02 | **Live Speed Gauge** | Displays vehicle speed from CAN ID `0x5A0` | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔲 |
-| Pi03 | **Coolant Temperature Gauge** | Displays engine coolant temperature from CAN ID `0x288` | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔲 |
-| Pi04 | **Throttle Position Gauge** | Displays accelerator pedal position (0–100%) from CAN ID `0x380` | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔲 |
-| Pi05 | **Fuel Level Indicator** | Displays estimated fuel level from Powertrain CAN | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔍 |
-| Pi06 | **Engine Oil Temperature** | Displays engine oil temperature if available on CAN | Ignition ON | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔍 |
-| Pi07 | **Check Engine Indicator** | Visual alert when ECU broadcasts engine fault status (CAN ID `0x480`) | Fault detected | Pi 4, MCP2515+TJA1050 | Python, HTML/JS | 🔲 |
-| Pi08 | **Android Auto Integration** | Full Android Auto on the 7" dashboard screen (navigation, media, calls) | Phone connects via WiFi | Pi 4, 7" touchscreen | HUDIY | 🔲 |
-| Pi09 | **60fps Smooth Gauge Animations** | GPU-accelerated CSS transitions for fluid gauge needle movement | Data update (10–20 Hz) | Pi 4 GPU | HTML/CSS | 🔲 |
+| ID | Feature | Description | Trigger | Hardware | Stack | Original (CAN design) | Status |
+|----|---------|-------------|---------|----------|-------|-----------------------|--------|
+| Pi01 | **Live RPM Gauge** | Displays engine RPM polled from the ECU with OBD PID `010C` | Ignition ON | Pi 4, ELM327 (Bluetooth) | Python, python-obd, HTML/JS | CAN ID `0x280` | 🔲 |
+| Pi02 | **Live Speed Gauge** | Displays vehicle speed polled with OBD PID `010D` — support by this ECU still to be confirmed | Ignition ON | Pi 4, ELM327 (Bluetooth) | Python, python-obd, HTML/JS | CAN ID `0x5A0` | 🔍 |
+| Pi03 | **Coolant Temperature Gauge** | Out of scope: the stock cluster already shows it | — | — | — | CAN ID `0x288` | ❌ |
+| Pi04 | **Throttle Position Gauge** | Out of scope: each extra PID lowers the K-line polling rate of RPM and speed | — | — | — | CAN ID `0x380` | ❌ |
+| Pi05 | **Fuel Level Indicator** | Out of scope: the stock cluster already shows it | — | — | — | Powertrain CAN | ❌ |
+| Pi06 | **Engine Oil Temperature** | Out of scope: not reported by this ECU's generic OBD interface | — | — | — | Powertrain CAN | ❌ |
+| Pi07 | **Check Engine Indicator** | Visual alert listing the stored fault codes, read with OBD mode `03` | DTCs present | Pi 4, ELM327 (Bluetooth) | Python, python-obd, HTML/JS | CAN ID `0x480` | 🔲 |
+| Pi08 | **Android Auto Integration** | Full Android Auto on the 7" dashboard screen (navigation, media, calls) | Phone connects via WiFi | Pi 4, 7" touchscreen | HUDIY | — | 🔲 |
+| Pi09 | **60fps Smooth Gauge Animations** | GPU-accelerated CSS transitions that interpolate between polled samples ([ADR-020](decisions.md#adr-020-gauge-animation-with-low-rate-polled-data)) | New sample (a few Hz) | Pi 4 GPU | HTML/CSS | Data at 10–20 Hz | 🔲 |
 
 ---
 
-## 🔧 Comfort Control (ESP32 — Comfort CAN)
+## 🔧 Comfort Control (ESP32 — Comfort CAN, unconfirmed)
+
+> On hold until a scan of the Central Locking (35) and Comfort System (46) modules with a KKL cable and VCDS-Lite confirms whether the car has a Comfort CAN. If it does not, these features move to direct control of the lock actuators.
 
 | ID | Feature | Description | Trigger | Hardware | Stack | Status |
 |----|---------|-------------|---------|----------|-------|--------|
-| CC01 | **Central Lock via CAN** | Send lock command to BCM (J519) via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔲 |
-| CC02 | **Central Unlock via CAN** | Send unlock command to BCM via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔲 |
+| CC01 | **Central Lock via CAN** | Send lock command to BCM (J519) via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
+| CC02 | **Central Unlock via CAN** | Send unlock command to BCM via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 | CC03 | **Headlights Control** | Toggle low beam headlights via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 | CC04 | **High Beam Control** | Toggle high beam via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 | CC05 | **Hazard Lights** | Activate/deactivate hazard lights via Comfort CAN | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 | CC06 | **Driver Window Control** | Send open/close command for driver window | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 | CC07 | **Passenger Window Control** | Send open/close command for passenger window | Software command | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
-| CC08 | **Door Status Reading** | Read open/closed state of driver door, passenger door, and boot | CAN broadcast | ESP32, SN65HVD230 | C++, TWAI | 🔲 |
+| CC08 | **Door Status Reading** | Read open/closed state of driver door, passenger door, and boot | CAN broadcast | ESP32, SN65HVD230 | C++, TWAI | 🔍 |
 
 ---
 
@@ -66,8 +70,8 @@
 | M02 | **Lock/Unlock Button (BLE)** | One-tap lock and unlock via BLE when in range | Button tap | Phone, ESP32 | Dart, BLE | 🔲 |
 | M03 | **Lock/Unlock Button (SMS)** | Fallback to SMS command when outside BLE range | Button tap | Phone, SIM800L | Dart, flutter_sms | 🔲 |
 | M04 | **Lights Control Button** | Toggle headlights / hazard via BLE or SMS | Button tap | Phone, ESP32 | Dart, BLE / SMS | 🔲 |
-| M05 | **Live Telemetry View** | Display real-time RPM, speed, temperature fetched from Pi backend via BLE | App open + connected | Phone, Pi 4 | Dart, BLE | 🔲 |
-| M06 | **Telemetry Reports** | View trip history, average fuel consumption, max temperature logs | App navigation | Phone, Pi 4 | Dart, SQLite | 🔲 |
+| M05 | **Live Telemetry View** | Display real-time RPM and speed fetched from Pi backend via BLE (temperature dropped with Pi03) | App open + connected | Phone, Pi 4 | Dart, BLE | 🔲 |
+| M06 | **Telemetry Reports** | View trip history, distance and average/max speed (fuel consumption and temperature logs dropped with Pi03/Pi05) | App navigation | Phone, Pi 4 | Dart, SQLite | 🔲 |
 | M07 | **Door Status Indicator** | Show current open/closed state of all doors in the app | BLE data push | Phone, ESP32 | Dart, BLE | 🔲 |
 | M08 | **Connection Mode Indicator** | Show whether the app is communicating via BLE or SMS fallback | Automatic detection | Phone | Dart | 🔲 |
 
@@ -77,10 +81,12 @@
 
 | ID | Feature | Description | Trigger | Hardware | Stack | Status |
 |----|---------|-------------|---------|----------|-------|--------|
-| IB01 | **CAN Frame Decoder** | Decode raw CAN frames into human-readable values (RPM, speed, temp) using DBC | Continuous | Pi 4, MCP2515 | Python, python-can, cantools | 🔲 |
+| IB01 | **CAN Frame Decoder** | Cancelled: no Powertrain CAN on this car — replaced by IB05 | — | — | Python, python-can, cantools | ❌ |
 | IB02 | **Local Telemetry API** | Expose vehicle data to HUDIY dashboard and mobile app via local REST/WebSocket API | Continuous | Pi 4 | Python, FastAPI | 🔲 |
-| IB03 | **Trip Logger** | Record trip start/end, distance, average speed, and temperature for reports | Ignition ON/OFF | Pi 4 | Python, SQLite | 🔲 |
-| IB04 | **CAN Signal Database (DBC)** | Maintain a `.dbc` file with all decoded signals for the Ibiza 6L / Simos 3PE | Manual update | — | SavvyCAN, cantools | 🔄 |
+| IB03 | **Trip Logger** | Record trip start/end, distance and average speed for reports | Ignition ON/OFF | Pi 4 | Python, SQLite | 🔲 |
+| IB04 | **CAN Signal Database (DBC)** | Cancelled: the Simos 3PE has no CAN to decode — replaced by standard OBD PIDs | — | — | SavvyCAN, cantools | ❌ |
+| IB05 | **OBD Poller** | Connect to the ELM327 over Bluetooth RFCOMM, pin the K-line protocol (`AT SP`) and poll RPM/speed in a task decoupled from the UI ([ADR-019](decisions.md#adr-019-elm327-bluetooth--python-obd-for-rpm-and-speed)) | Ignition ON | Pi 4, ELM327 (Bluetooth) | Python, python-obd | 🔲 |
+| IB06 | **K-line Connection Fix** | Restore OBD2 communication with the ECU (suspected aftermarket radio pulling the K-line to ground) — prerequisite for IB05 | Manual | Multimeter, ELM327 | — | 🔄 |
 
 ---
 
@@ -89,12 +95,13 @@
 | ID | Idea | Notes |
 |----|------|-------|
 | B01 | **Offline navigation (Organic Maps)** | Pi 4 + USB GPS module — fully independent of phone |
-| B02 | **OBD-II diagnostic reader** | Read and clear DTCs, display fault codes on dashboard |
+| B02 | **OBD-II diagnostic reader** | Reading DTCs moved to Pi07. Still in backlog: clearing DTCs from the dashboard |
+| B06 | **Pulse taps for RPM/speed** | Read the tachometer and VSS pulse wires directly if K-line polling is too slow for the gauges (ADR-019) |
 | B03 | **Startup animation** | Custom boot screen on 7" display while Pi initialises |
 | B04 | **Voice commands via BLE** | Use phone mic to trigger lock/unlock by voice |
 | B05 | **Geo-fence alert** | SMS alert if car leaves a defined geographic area |
 
 ---
 
-*Last updated: September 2026*
+*Last updated: November 2026*
 *Add new features below the relevant section. Update status as implementation progresses.*
